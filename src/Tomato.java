@@ -1,17 +1,5 @@
-public class Tomato implements ItemInterface {
-    int expiry;
-
+public class Tomato extends Item{
     public Tomato(int expiry) {
-        this.expiry = expiry;
-    }
-
-    @Override
-    public InventoryTableRow getInventoryTableRow() {
-        return new InventoryTableRow("Tomato", "Red and round", "15.0", expiry + "");
-    }
-
-    @Override
-    public CartTableRow getCartRow(String column3) {
-        return new CartTableRow("Tomato", "15.0", column3);
+        super("Tomato", "Red and round", 15.0d, expiry + "");
     }
 }
