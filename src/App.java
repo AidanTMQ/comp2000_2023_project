@@ -5,6 +5,7 @@ public class App {
     private Storage storage;
     private JFrame frame;
     private PageManager manager;
+    private CraftingManager stdcrafter;
 
     public App(Player p, Storage s) {
         player = p;
@@ -12,7 +13,7 @@ public class App {
         player.setStorageView(storage.getInventory());
 
         manager = new PageManager(player, storage);
-
+        stdcrafter = new StandardCraftingManager();
         // Setup of sorting
         setupSearching((InventoryPage) manager.findPage("Player Inventory"));
         setupSearching((InventoryPage) manager.findPage("Storage"));
@@ -50,7 +51,7 @@ public class App {
     }
 
     void setupCrafting(ItemCraftPage page, Player player) {
-        page.setCraftAction((def) -> System.out.println("Crafting not implemented"));
+        page.setCraftAction((def) -> stdcrafter.craft(player,def));
     }
 
     void setupUncrafting(ProductPage page, Player player) {

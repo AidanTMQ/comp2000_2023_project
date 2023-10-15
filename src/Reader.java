@@ -213,7 +213,7 @@ public class Reader {
             getItemDef(name, itemDefinitions).ifPresentOrElse(
                 (def) -> {
                     for (int i = 0; i < qty; i++) {
-                        startingInventory.addOne(def.create());
+                        startingInventory.add(def.create());
                     }
                 },
                 () -> {
@@ -229,7 +229,7 @@ public class Reader {
             getItemDef(data[0], itemDefinitions).ifPresentOrElse(
                 (def) -> {
                     for (int i = 0; i < qty; i++) {
-                        startingInventory.addOne(def.create());
+                        startingInventory.add(def.create());
                     }
                 },
                 () -> {

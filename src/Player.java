@@ -54,7 +54,7 @@ public class Player {
         if (getCurrentWeight() + item.getWeight() > getCarryCapacity()) {
             throw new ExceedWeightCapacity(this, item);
         }
-        inventory.addOne(storage.retrieve(item));
+        inventory.add(storage.retrieve(item));
     }
     
 }

@@ -14,7 +14,7 @@ public class ItemDefinition {
         isBaseItem = weightIfBase.isPresent();
         weight = weightIfBase;
 
-        // This may be helpful for the compsite pattern to find the appropriate item definitions
+        // This may be helpful for the compsite pattern  to find the appropriate item definitions
         ItemDictionary dict = ItemDictionary.get();
 
     }
@@ -33,7 +33,6 @@ public class ItemDefinition {
 
     // ItemDefinition might "craft" and return an item, using items from some source inventory.
     // You might use the Milestone 1 Basket transaction code as a guide
-
     public String getName() {
         return name;
     }

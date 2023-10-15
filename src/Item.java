@@ -1,4 +1,4 @@
-public class Item implements ItemInterface {
+ public class Item implements ItemInterface {
     private ItemDefinition definition;
 
     /**

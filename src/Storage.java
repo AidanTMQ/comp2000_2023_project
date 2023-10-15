@@ -16,7 +16,7 @@ public class Storage {
     }
     
     public void store(ItemInterface item) {
-        items.addOne(item);
+        items.add(item);
     }
 
     public ItemInterface retrieve(ItemInterface item) throws ItemNotAvailableException {
