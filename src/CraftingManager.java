@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public interface CraftingManager {
-    void craft(Player player, ItemDefinition output);
+    HashMap<String,Integer>craft(Player player, ItemDefinition output);
 }

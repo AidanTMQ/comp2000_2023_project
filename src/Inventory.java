@@ -46,7 +46,18 @@ public class Inventory {
         }
         return stock.remove(removeFromIdx.get().intValue());
     }
-
+    public ItemInterface[] remove(String qitem,int qty){
+        int counter = qty;
+        ArrayList<ItemInterface> removedItems = new ArrayList<ItemInterface>();
+        for(ItemInterface stockItem : stock){
+            if (counter == 0) break;
+            if(stockItem.getName().equals(qitem)){
+                stock.remove(stockItem);
+                removedItems.add(stockItem);
+            }
+        }
+        return (ItemInterface[])removedItems.toArray();
+    }
     /**
      * Adds an Item instance to the inventories stock.
      * Sort is called using the current/existing sort strategy.
