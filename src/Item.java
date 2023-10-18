@@ -38,7 +38,7 @@
         // For craftable items, this method should return a description describing/listing the
         // other items which make up this item.
         // When a non-empty String is returned, the uncraft button will appear in the UI.
-        return "";
+        return this.getDefinition().componentsString();
     }
 
     @Override

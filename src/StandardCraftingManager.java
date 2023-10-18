@@ -11,39 +11,52 @@ public class StandardCraftingManager implements CraftingManager{
     /**
      * @return
      */
-    public ArrayList<Item> uncraft(){
-        return new ArrayList<Item>();
-    }
     @Override
-    public HashMap<String,Integer> craft(Player player,ItemDefinition finalprod){
-        
-        String [] stringlist = finalprod.componentsString().trim().split(",");
-        HashMap<String,Integer> nameQtyMap = new HashMap<String,Integer>();
-        for(String str : stringlist){
-            str.trim();
-            if (nameQtyMap.putIfAbsent(str,1)==null){
-                nameQtyMap.put(str,nameQtyMap.get(str)+1);
+    public void craft(Player player,ItemDefinition finalprod){
+        Inventory playInv = player.getInventory();
+        String[] stringlist = finalprod.componentsString().replaceAll("\\s", "").split(",");
+        HashMap<ItemDefinition,Integer> defQty = new HashMap<ItemDefinition,Integer>();
+        HashMap<String,Integer> missingComponents = new HashMap<String,Integer>();
+        for(String i : stringlist){
+            ItemDefinition currentdef = ItemDictionary.get().defByName(i).get();
+            defQty.merge(currentdef, 1, Integer::sum);
+        }
+        boolean hascomps = true;
+        for (ItemDefinition key : defQty.keySet()) {
+            if(playInv.qtyOf(key)<defQty.get(key)){
+                hascomps = false;
+                missingComponents.merge(key.getName(), 1, Integer::sum);
             }
         }
-        
-        HashMap<String,Integer> missingResources = new HashMap<String,Integer>();
-        nameQtyMap.forEach((String name, Integer qtyreq)->{
-            System.out.println("name:"+name+", qty"+qtyreq);
-            int playerItemQty = player.getInventory().qtyOf(name);
-            if (playerItemQty<qtyreq){
-                missingResources.put(name,qtyreq - playerItemQty);
-            }
-        });
-        if(missingResources.size()==0){
-            nameQtyMap.forEach((String name, Integer qtyreq)->{
-            player.getInventory().remove(name,qtyreq);
-        });
-        }else{
-            System.err.println("Could Not Craft Missing the Following Items");
-            missingResources.forEach((String name,Integer qtyreq)->{
-                System.err.println("    - "+qtyreq+" x "+name);
+        if(!hascomps){
+            System.out.println("Inventory Missing Required Crafting Materials :");
+            missingComponents.forEach((String x,Integer qty)->{
+                System.out.println(qty+"x : "+x);
             });
+            return;
+        }else{
+            Double weight = 0.0;
+            for (ItemDefinition key : defQty.keySet()) {
+                int counter = 0;
+                while(counter<defQty.get(key)){
+                    try{
+                    playInv.removeOne(key);
+                    } catch (Exception e) {
+                        System.out.println(e.getStackTrace());
+                    }
+                    weight += key.getWeight().get(); // should always work as can only craft with base item
+                    counter++;
+                }
+            }
+
+            finalprod.create();
         }
-        return missingResources;
+
+    }
+
+    @Override
+    public ArrayList<ItemDefinition> uncraft(Player player, ItemDefinition input) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'uncraft'");
     }
 }
