@@ -15,23 +15,23 @@ You chose: <REPLACE WITH PATTERN OF CHOICE>
 Structural pattern - *Composite* pattern.
 
 ## Itemise changes made (which class files were modified)
-1. Created "Strategy Style" crafting manager interface `CraftingManager.java` With Abstract Methods ***craft()*** and ***uncraft()***
-2. Created `StandardCraftingManager` which implements previous inteface and overrides `CraftingManager` Methods 
-3. Added Methods to ItemDefinition.Java
+1. Created `CraftingManager.java` a "Strategy Style" interface With Abstract Methods ***craft()*** and ***uncraft()***
+2. Created `StandardCraftingManager` which implements CraftingManager Inteface and overrides `CraftingManager` Methods 
+3. Added Methods to `ItemDefinition.Java`
     1. ***getComponentNames()*** getter for private componentnames variable
     2. ***HashMap<ItemDefinition,Integer> getComponentQty()*** Returns a hashmap of the Item Definitions Components from  ***getComponentNames()***
     3. ***getCompositionWeight()*** returns the sum of the weights of all composing items
-    4. added ***setWeight()*** setter for weight variable
-4. Added Methods to Item.Java
+    4. ***setWeight()*** setter for weight variable
+4. Added Methods to `Item.Java`
     1.changed **getWeight()** from optional or else setting weight to 0.0 to settign weight to ***getCompositionWeight()*** 
-5. Attatched App.Java setupCrafting and setupUncrafting to my Crafting Manager methods
+5. Attatched 'App.Java' existing ***setupCrafting()*** and ***setupUncrafting()*** to my Crafting Manager methods
 # Task 3
 
 ## Itemised changes or new files
-1. 
+1. Created `CraftingManager.java` interface and Created `StandardCraftingManager`
 
 ## What was changed
-1. 
+1. Decided To implement Crafting as a strategy style pattern instead of the implied ItemDefinitions methods
 
 ## Why it was changed
 1. 
