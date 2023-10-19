@@ -55,6 +55,6 @@ public class App {
     }
 
     void setupUncrafting(ProductPage page, Player player) {
-        page.setUncraftAction((item) -> System.out.println("Uncrafting not implemented"));
+        page.setUncraftAction((def) -> stdcrafter.uncraft(player,def));
     }
 }

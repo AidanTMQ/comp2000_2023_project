@@ -1,4 +1,5 @@
 import java.util.Optional;
+import java.util.HashMap;
 
 public class ItemDefinition {
     private String name;
@@ -14,8 +15,6 @@ public class ItemDefinition {
         isBaseItem = weightIfBase.isPresent();
         weight = weightIfBase;
 
-        // This may be helpful for the compsite pattern to find the appropriate item definitions
-        // ItemDictionary dict = ItemDictionary.get();
 
     }
 
@@ -33,7 +32,9 @@ public class ItemDefinition {
 
     // ItemDefinition might "craft" and return an item, using items from some source inventory.
     // You might use the Milestone 1 Basket transaction code as a guide 
-    
+    public void setWeight(double newWeight){
+        this.weight = Optional.of(newWeight); 
+    }
     public String getName() {
         return name;
     }
@@ -43,7 +44,49 @@ public class ItemDefinition {
     }
 
     /**
+     * Format: {ItemDefinition item: Integer qty}
+     * 
+     * @return a HashMap that stores the ItemDefinition and Quantity of base 
+     */
+    public HashMap<ItemDefinition,Integer> getComponentQty(){
+        HashMap<ItemDefinition, Integer> defQty = new HashMap<ItemDefinition, Integer>();
+        for (String i : this.getComponentNames()) {
+            ItemDefinition currentdef = ItemDictionary.get().defByName(i).get();
+            defQty.merge(currentdef, 1, Integer::sum);
+        }
+        return defQty;
+    }
+    /**
+     * @return returns the sum of the items parts
+     */
+    public double getCompositionWeight(){
+        if (!isBaseItem) {
+            double weight = 0.0;
+            HashMap<ItemDefinition,Integer> defQty =  this.getComponentQty() ;
+            for (ItemDefinition key : defQty.keySet()) {
+                int counter = 0;
+                while (counter < defQty.get(key)) {
+                    weight += key.getWeight().get(); // should always work as can only craft with base item
+                    counter++;
+                }
+            }
+            return weight;
+        }
+        else return this.weight.get();
+    }
+
+    public String[] getComponentNames() {
+        return componentNames;
+    }
+    /**
+     * Updates Items
+     */
+    public void updateCompositionWeight(){
+        this.setWeight(getCompositionWeight());
+    }
+    /**
      * Format: {ITEM 1}, {ITEM 2}, ...
+     * 
      * @return a String of sub-item/component names in the above format
      */
     public String componentsString() {

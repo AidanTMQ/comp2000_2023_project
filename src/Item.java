@@ -1,4 +1,6 @@
- public class Item implements ItemInterface {
+import java.util.HashMap;
+
+public class Item implements ItemInterface {
     private ItemDefinition definition;
 
     /**
@@ -13,8 +15,7 @@
 
     @Override
     public double getWeight() {
-        double weight = definition.getWeight().orElse(0.0);
-        // If the item is made up of other items, we should find the sum of weights
+        double weight = definition.getWeight().orElse(this.getDefinition().getCompositionWeight());
         return weight;
     }
 
@@ -35,10 +36,17 @@
 
     @Override
     public String getCompositionDescription() {
-        // For craftable items, this method should return a description describing/listing the
-        // other items which make up this item.
-        // When a non-empty String is returned, the uncraft button will appear in the UI.
-        return this.getDefinition().componentsString();
+        String op = "";
+        HashMap<ItemDefinition, Integer> defQty = this.getDefinition().getComponentQty();
+        for (ItemDefinition key : defQty.keySet()) {
+            int counter = 0;
+            while (counter < defQty.get(key)) {
+                op = op+"\n -  "+ defQty.get(key)+"x "+key.getName() + "  :\n       " + key.getDescription()+"\n";
+                counter++;
+            }
+
+        }
+        return op;
     }
 
     @Override
